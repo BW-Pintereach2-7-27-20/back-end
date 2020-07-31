@@ -56,7 +56,7 @@ router.post("/login", (req, res) => {
   }
 });
 
-router.put('/user', (req, res) => {
+router.patch('/user', (req, res) => {
     const decoded = jwt.verify(req.headers.authorization, SECRET);
     Accounts.update({ updates: req.body, id:decoded.subject})
     .then(response => res.status(200).json(response))
