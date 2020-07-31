@@ -3,7 +3,9 @@ const { genericModel: {
   genFindAll,
   genFindBy,
   genAdd,
-  genFindById
+  genFindById,
+  genUpdate,
+  genRemove
 } } = require("../globalServices")
 const dbname = 'accounts';
 
@@ -13,6 +15,8 @@ module.exports = {
   findAll,
   findBy,
   findById,
+  update,
+  remove
 };
 
 async function findAll() {
@@ -38,4 +42,12 @@ async function add(user) {
 
 async function findById(id) {
   return await genFindById(id, dbname)
+}
+
+async function update(info) {
+  return await genUpdate({...info, dbname})
+}
+
+async function remove(id) {
+  return await genRemove(id,dbname);
 }
