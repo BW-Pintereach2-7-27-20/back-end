@@ -17,17 +17,32 @@ function isValidReg(credentials, userMatch) {
     }
   }
 
+  // function isValidLog(credentials) {
+  //   if (!credentials.password) {
+  //     return [ 400, 'Please provide a password']
+  //   } if (!credentials.username) {
+  //     return [ 400, 'Please provide a username']
+  //   } if (credentials === null || credentials === undefined) {
+  //     return [ 400, "please provide username and password and the password shoud be alphanumeric" ]
+  //   }if (typeof credentials.password  !== 'string' || typeof credentials.username  !== 'string') {
+  //     return [ 400, "Invalid format" ]
+  //   } else {
+  //     return [ 200, credentials];
+  //   }
+  // }
+
+
   function isValidLog(credentials) {
     if (!credentials.password) {
-      return [ 400, 'Please provide a password']
+      return false
     } if (!credentials.username) {
-      return [ 400, 'Please provide a username']
+      return false
     } if (credentials === null || credentials === undefined) {
-      return [ 400, "please provide username and password and the password shoud be alphanumeric" ]
+      return false
     }if (typeof credentials.password  !== 'string' || typeof credentials.username  !== 'string') {
-      return [ 400, "Invalid format" ]
+      return false
     } else {
-      return [ 200, credentials];
+      return true
     }
   }
 // function hashedPassword(params) {
