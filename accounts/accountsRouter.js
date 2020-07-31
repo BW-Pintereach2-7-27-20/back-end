@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const router = require("express").Router();
 
 const Accounts = require("./accountsModel.js");
-const { isValidReg } = require("./accountsServices.js");
+const { isValidReg, isValidLog } = require("./accountsServices.js");
 const { SECRET, ROUNDS } = require("../globalConstants.js");
 
 router.post("/register", async (req, res) => {
@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (isValid(req.body)) {
+  if (isValidLog(req.body)) {
     Accounts.findBy({ username: username })
       .then(([user]) => {
         // compare the password the hash stored in the database
@@ -56,9 +56,11 @@ router.post("/login", (req, res) => {
   }
 });
 
-router.patch('/user', (req, res) => {
-    const decoded = jwt.verify(req.headers.authorization, SECRET);
-    Accounts.update({ updates: req.body, id:decoded.subject})
+router.patch('/user', async (req, res) => {
+    const decoded = await jwt.verify(req.headers.authorization, SECRET);
+    const payload = req.body;
+    payload.password = await bcryptjs.hashSync(payload.password, ROUNDS);
+    Accounts.update({ updates: await payload, id: await decoded.subject})
     .then(response => res.status(200).json(response))
     .catch(error => res.json({message: error.message}))
 })

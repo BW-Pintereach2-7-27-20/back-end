@@ -46,7 +46,7 @@ globalServices.genericModel = {
       }
       return await globalServices.genericModel.genFindById(id, dbname);
     } catch (error) {
-      // console.log(updates, id, dbname);
+      console.log(updates, id, dbname);
       return error
     }
     },
