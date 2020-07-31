@@ -56,6 +56,20 @@ router.post("/login", (req, res) => {
   }
 });
 
+router.put('/user', (req, res) => {
+    const decoded = jwt.verify(req.headers.authorization, SECRET);
+    Accounts.update({ updates: req.body, id:decoded.subject})
+    .then(response => res.status(200).json(response))
+    .catch(error => res.json({message: error.message})
+})
+    
+router.delete('/user', (req, res) => {
+    const decoded = jwt.verify(req.headers.authorization, SECRET);
+    Accounts.remove(decoded.subject)
+    .then(response => res.status(200).json({message: 'success', count:response}))
+    .catch(error => res.json({message: error.message})
+})
+                     
 function makeJwt(user) {
     const payload = {
         subject: user.id
